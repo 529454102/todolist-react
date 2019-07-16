@@ -24,6 +24,7 @@ class LoginForm extends Component {
         }
     }
     render() {
+        console.log(this.props)
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="login-container">
@@ -31,7 +32,7 @@ class LoginForm extends Component {
                 <Form onSubmit={this.handleSubmit} className="login-form">
                     <Form.Item>
                         {getFieldDecorator('username', {
-                            rules: [{ required: true, message: '请输入用户名' }, { validator: }],
+                            rules: [{ required: true, message: '请输入用户名' }, { validator: this.checkUsername }],
                         })(
                             <Input
                                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}

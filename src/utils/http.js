@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { getToken } from '@/utils/auth'
+import { message } from 'antd'
 
 const service = axios.create({
     baseURL: 'http://47.102.199.149:3000',
@@ -31,11 +32,12 @@ service.interceptors.response.use(
         console.log(response)
         switch (response.data.code) {
             case 200: return response.data;
-            default: throw new Error(response.data.message);
+            default:message.error(response.data.message);console.log(response.data); throw new Error(response.data.message);
         }
 
     },
     error => {
+        message.error(error.response.data.message)
         throw new Error(error.response.data.message || `未知错误信息： ${error}`)
     }
 )
