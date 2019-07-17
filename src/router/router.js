@@ -5,7 +5,9 @@ import { message } from 'antd'
 
 class RouterAuth extends Component {
     componentDidMount(){
-        message.error('请登录')
+        if(!this.props.token) {
+            message.error('请登录')
+        }
     }
     render() {
         const { location, config, token } = this.props
