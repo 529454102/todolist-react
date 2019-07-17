@@ -1,8 +1,9 @@
 import { GET_USER } from './actionType'
+import { getToken } from '@/utils/auth'
 const defaultStore = {
     list: [],
-    token: "",
-    username: ""
+    token: getToken('token'),
+    username: getToken('username')
 }
 
 export default (state = defaultStore, action) => {

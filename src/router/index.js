@@ -1,18 +1,13 @@
 import React from 'react';
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
-import Home from '../views/Home'
-import Login from '../views/Login'
-import Register from '../views/Register'
-import NotFound from '../views/NotFound'
+import { HashRouter as Router, Switch } from "react-router-dom";
+import { config } from './config'
+import RouterAuth from './router'
 import 'antd/dist/antd.css';
 export default () => {
     return (
         <Router>
             <Switch>
-                <Route exact path="/" component={Home}></Route>
-                <Route path="/login" component={Login}></Route>
-                <Route path="/register" component={Register}></Route>
-                <Route component={NotFound}></Route>
+                <RouterAuth config={config}></RouterAuth>
             </Switch>
         </Router>
     )
