@@ -4,19 +4,14 @@ import { connect } from 'react-redux'
 import { message } from 'antd'
 
 class RouterAuth extends Component {
-    componentDidUpdate(){
-        if(!this.props.token && this.props.location.pathname === '/login'){
-            message.error('请登录')
-        }
+    componentDidMount(){
+        message.error('请登录')
     }
     render() {
-        console.log(this.props)
         const { location, config, token } = this.props
         const targetRouteConfig = config.find(item => item.path === location.pathname)
-        console.log(targetRouteConfig)
         //无效路由重定向404
         if (!targetRouteConfig) {
-            console.log('redirect')
             return <Redirect to='/404' />
         }
         const { component } = targetRouteConfig

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Icon, Input, Button } from 'antd';
 import { Link } from 'react-router-dom'
 import { getUserAction } from '@/store/action'
-import '@/views/Login/index.scss'
+import './index.scss'
 
 class LoginForm extends Component {
     handleSubmit = e => {
@@ -24,7 +24,6 @@ class LoginForm extends Component {
         }
     }
     render() {
-        console.log(this.props)
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="login-container">
