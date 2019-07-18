@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Button, Input, Row, Col, message, Tabs } from 'antd';
 import { getData, addData, editData, delData } from "@/api/list";
 import List from './components/list'
+import CList from './components/clist'
 import { setUser } from '@/store/action'
 import { removeToken } from '@/utils/auth'
 import './index.scss'
@@ -19,6 +20,8 @@ class Home extends Component {
         this.handleDel = this.handleDel.bind(this)
         this.handleEditStatus = this.handleEditStatus.bind(this)
         this.handleEditSumbit = this.handleEditSumbit.bind(this)
+        this.handleRevocation = this.handleRevocation.bind(this)
+        this.handleTabChange = this.handleTabChange.bind(this)
         this.state = {
             inputValue: "",
             status: 0,
@@ -52,6 +55,30 @@ class Home extends Component {
         } else {
             return '暂无代办事项'
         }
+    }
+    tabCompleteContent() {
+        const { list } = this.state
+        let listContent = []
+        if (list.length > 0) {
+            list.forEach((item, index) => {
+                listContent.push(
+                    <CList className="mb-10"
+                        key={item.id}
+                        index={index + 1}
+                        item={item}
+                        handleRevocation={this.handleRevocation}
+                    />
+                )
+            })
+            return listContent
+        } else {
+            return '暂无完成事项'
+        }
+    }
+    handleTabChange = key => {
+        this.setState({ status: key }, () => {
+            this.getList()
+        })
 
     }
     render() {
@@ -69,12 +96,12 @@ class Home extends Component {
                         </Col>
                     </Row>
                 </div>
-                <Tabs className="tl" defaultActiveKey="0" onChange={key => { this.setState({ status: key }) }}>
+                <Tabs className="tl" defaultActiveKey="0" onChange={this.handleTabChange}>
                     <TabPane tab="未完成" key="0">
                         {this.tabContent()}
                     </TabPane>
                     <TabPane tab="已完成" key="1">
-                        Content of Tab Pane 2
+                        {this.tabCompleteContent()}
                     </TabPane>
                 </Tabs>
             </div>
@@ -167,6 +194,20 @@ class Home extends Component {
             this.getList();
             message.success('修改成功')
         } catch (error) { }
+    }
+    async handleRevocation(id) {
+        const obj = {
+            id,
+            status: 0
+        }
+        try {
+            await editData(obj)
+            this.getList();
+            message.success('撤销成功')
+        } catch (error) {
+
+        }
+
     }
 }
 const mapStatetoProps = state => {
