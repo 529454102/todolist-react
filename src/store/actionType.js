@@ -1,2 +1,2 @@
 export const GET_LIST = 'get_list'
-export const GET_USER = 'get_user'
+export const SET_USER = 'set_user'

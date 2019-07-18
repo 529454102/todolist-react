@@ -22,7 +22,7 @@ function List(props) {
             <Col span={22}>
                 <Row>
                     <Col span={18}>
-                        <Input onChange={e => { setInputValue(e.target.value) }} value={inputValue} placeholder="请输入" size="small" />
+                        <Input onPressEnter={submit}  onChange={e => { setInputValue(e.target.value) }} value={inputValue} placeholder="请输入" size="small" />
                     </Col>
                     <Col span={6} >
                         <Row type="flex" justify="space-around">

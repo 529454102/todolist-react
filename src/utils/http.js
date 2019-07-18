@@ -1,6 +1,9 @@
 import axios from 'axios'
 import { getToken } from '@/utils/auth'
 import { message } from 'antd'
+import { HashRouter } from "react-router-dom";
+import { setUser } from '@/store/action'
+import store from '@/store'
 
 const service = axios.create({
     baseURL: 'http://47.102.199.149:3000',
@@ -9,6 +12,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
     request => {
+        console.log(store)
         console.log('request')
         console.log(request)
         if (request.url === '/login' || request.url === 'register') {
@@ -17,7 +21,10 @@ service.interceptors.request.use(
         if (getToken('token')) {
             request.headers['Authorization'] = 'Bearer ' + getToken('token')
         } else {
-            // store.dispatch('logout')
+            store.dispatch(setUser({ username: '', token: '' }))
+            message.error('请重新登陆')
+            new HashRouter().history.push('/login')
+            return
         }
         return request
     },
@@ -32,7 +39,7 @@ service.interceptors.response.use(
         console.log(response)
         switch (response.data.code) {
             case 200: return response.data;
-            default:message.error(response.data.message);console.log(response.data); throw new Error(response.data.message);
+            default: message.error(response.data.message); console.log(response.data); throw new Error(response.data.message);
         }
 
     },

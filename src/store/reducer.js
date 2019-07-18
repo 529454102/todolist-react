@@ -1,4 +1,4 @@
-import { GET_USER } from './actionType'
+import { SET_USER } from './actionType'
 import { getToken } from '@/utils/auth'
 const defaultStore = {
     token: getToken('token'),
@@ -8,7 +8,7 @@ const defaultStore = {
 export default (state = defaultStore, action) => {
     const newState = JSON.parse(JSON.stringify(state))
     switch (action.type) {
-        case GET_USER:
+        case SET_USER:
             newState.token = action.token
             newState.username = action.username
             return newState

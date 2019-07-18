@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Button, Input, Row, Col, message, Tabs } from 'antd';
 import { getData, addData, editData, delData } from "@/api/list";
 import List from './components/list'
+import { setUser } from '@/store/action'
+import { removeToken } from '@/utils/auth'
 import './index.scss'
 const { TabPane } = Tabs
 
@@ -56,7 +58,7 @@ class Home extends Component {
         const { username } = this.props
         return (
             <div className="home-container">
-                <div>欢迎您,{username}<a href="javascript:;" className="ml-10">退出</a></div>
+                <div>欢迎您,{username}<a href="javascript:;" className="ml-10" onClick={this.props.handleLogout}>退出</a></div>
                 <div className="inputContent">
                     <Row gutter={20}>
                         <Col span={16} offset={4}>
@@ -172,5 +174,15 @@ const mapStatetoProps = state => {
         username: state.username
     }
 }
+const mapDispatchToProps = dispatch => {
+    return {
+        handleLogout() {
+            dispatch(setUser({ username: "", token: "" }))
+            removeToken('username')
+            removeToken('token')
+            message.error('请重新登陆')
+        }
+    }
+}
 
-export default connect(mapStatetoProps)(Home)
+export default connect(mapStatetoProps, mapDispatchToProps)(Home)
